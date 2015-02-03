@@ -25,7 +25,7 @@ angular.module('request', [])
 
     each(obj, function (item, index) {
       qs += qs.length ? '&' : '?';
-      qs += index + '+' + item;
+      qs += index + '=' + item;
     });
 
     return qs;
