@@ -1,22 +1,22 @@
-request
-=======
+ngl.request
+===========
 
-A wrapper for the angular `$http` service
+angel / angular 1.x `$http` service wrapper
 
 Features
 --------
 
-*   Centralize endpoint configurations with placeholders and query strings
-*   Provide all the HTTP methods for each endpoint
-*   Provide a promise interface from every HTTP method
+  * Centralize endpoint configurations with placeholders and query strings
+  * Provide all the HTTP methods for each endpoint
+  * Provide a promise interface from every HTTP method
 
 Supported HTTP methods
 ----------------------
 
-*   GET (`request.foo().get()`)
-*   POST (`request.foo().post()`)
-*   PUT (`request.foo().put()`)
-*   DELETE (`request.foo().delete()`)
+  * GET (`request.foo().get()`)
+  * POST (`request.foo().post()`)
+  * PUT (`request.foo().put()`)
+  * DELETE (`request.foo().delete()`)
 
 Usage
 -----
@@ -35,22 +35,15 @@ DELETE  /item/1  Item.destroy()
 Expose a service with the configured resources
 
 ```js
-angular.module('app.request', ['request'])
+angular.module('app.request', ['ngl.request'])
 
-.factory('request', function (request) {
-  'use strict';
-
-  // avoid initial slash in context to make it relative to the current context
-  var context = 'api';
-
-  var endpoints = {
-    items: '/item',
-    item: '/item/:id'
-  };
-
-  return request({
-    context: context,
-    endpoints: endpoints
+.factory('appRequest', function (nglRequest) {
+  return nglRequest({
+    context: 'api',
+    endpoints: {
+      items: '/item',
+      item: '/item/:id'
+    }
   });
 });
 ```
@@ -58,22 +51,20 @@ angular.module('app.request', ['request'])
 Use the exposed service where needed
 
 ```js
-angular.module('app.controllers', ['app.request'])
+angular.module('app', ['app.request'])
 
-.controller('home', function (request) {
-  'use strict';
-
-  request.items().get({ maxResults: 10, page: 2 });
-  request.item({ id: 123 }).get();
-  request.item({ id: 123 }).post({ name: 'foo' });
-  request.item({ id: 123 }).delete();
+.controller('home', function (appRequest) {
+  appRequest.items().get({ maxResults: 10, page: 2 });
+  appRequest.item({ id: 123 }).get();
+  appRequest.item({ id: 123 }).post({ name: 'foo' });
+  appRequest.item({ id: 123 }).delete();
 });
 ```
 
-Implementation
---------------
+Design notes
+------------
 
-Follow the KISS principle
+Keep It Simple
 
 ### Avoid optional parameters
 
@@ -81,19 +72,19 @@ Do not handle url sections like `/:id?`
 
 ### Query string parameters
 
-*   Should be reserved for **search** filters
-*   Should be optional
+  * Should be reserved for **search** filters
+  * Should be optional
 
 That simplifies the API:
 
-*   Url parameters (`:id`) will be defined in the resource's single argument
-
+  * Url parameters (`:id`) will be defined in the resource's single argument
+  
     ```js
-    request.item({ id: 123 })
+    appRequest.item({ id: 123 })
     ```
-
-*   `.get()` single argument will be treated as query string object
-*   `.post()` or `.put()` single argument will be treated as data payload
+  
+  * `.get()` single argument will be treated as query string object
+  * `.post()` or `.put()` single argument will be treated as data payload
 
 References
 ----------

@@ -1,6 +1,6 @@
-angular.module('request', [])
+angular.module('ngl.request', [])
 
-.factory('request', function ($http) {
+.factory('nglRequest', function ($http) {
   'use strict';
 
   var each = function (list, func) {
