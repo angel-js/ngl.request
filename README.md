@@ -1,7 +1,7 @@
 ngl.request
 ===========
 
-angel / angular 1.x `$http` service wrapper
+Angular 1.x `$http` service wrapper
 
 Features
 --------
