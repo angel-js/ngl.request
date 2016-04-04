@@ -1,7 +1,7 @@
 ngl.request
 ===========
 
-Angular 1.x `$http` service wrapper
+Wrapper for Angular 1.x `$http` service
 
 ### Features
 
