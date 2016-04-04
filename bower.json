@@ -3,7 +3,7 @@
   "license": "MIT",
   "dependencies": {
     "angular": "1.*",
-    "ngl.fp": "^0.7.1",
-    "ngl.url": "^0.1.8"
+    "ngl.fp": "^0.7.4",
+    "ngl.url": "^0.1.9"
   }
 }
