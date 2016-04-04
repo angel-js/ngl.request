@@ -10,8 +10,8 @@ angular.module('ngl.request', [
     return path + nglQueryString(qs);
   };
 
-  var get = function (path, qs) {
-    return $http.get(url(path, qs)));
+  var get = function (url, qs) {
+    return $http.get(url + nglQueryString(qs));
   };
 
   var post = function (url, payload) {
@@ -23,7 +23,7 @@ angular.module('ngl.request', [
   };
 
   var del = function (url) {
-    return $http['delete'](url);
+    return $http.delete(url);
   };
 
   var requestMethods = function (urlTemplate, urlParams) {
@@ -34,17 +34,14 @@ angular.module('ngl.request', [
       get: nglPartial(get, urlPath),
       post: nglPartial(post, urlPath),
       put: nglPartial(put, urlPath),
-      'delete': nglPartial(del, urlPath)
+      delete: nglPartial(del, urlPath)
     };
   };
 
   var request = function (config) {
-    var context = config.context || '';
-    var endpoints = config.endpoints;
-
     return nglMap(function (item) {
-      return nglPartial(requestMethods, context + item);
-    }, endpoints);
+      return nglPartial(requestMethods, item);
+    }, config.endpoints);
   };
 
   return request;

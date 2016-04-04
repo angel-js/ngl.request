@@ -3,43 +3,34 @@ ngl.request
 
 Angular 1.x `$http` service wrapper
 
-Features
---------
+### Features
 
   * Centralize endpoint configurations with placeholders and query strings
   * Provide all the HTTP methods for each endpoint
   * Provide a promise interface from every HTTP method
 
-Supported HTTP methods
-----------------------
-
-  * GET (`request.foo().get()`)
-  * POST (`request.foo().post()`)
-  * PUT (`request.foo().put()`)
-  * DELETE (`request.foo().delete()`)
-
 Usage
 -----
 
-Having a RESTful backend like the following:
+Having a RESTful backend like the following...
 
 ```
-GET     /item    Item.all()
-POST    /item    Item.create()   Create with auto-generated id
-POST    /item/1  Item.create()   Create with id "1"
-GET     /item/1  Item.show()
-PUT     /item/1  Item.update()
-DELETE  /item/1  Item.destroy()
+GET     /api/item      List all
+POST    /api/item      Create with auto-generated id
+POST    /api/item/:id  Create with id
+GET     /api/item/:id  Show id
+PUT     /api/item/:id  Update id
+DELETE  /api/item/:id  Delete id
 ```
 
-Expose a service with the configured resources
+First, expose a service with the configured resources
 
 ```js
 angular.module('app.request', ['ngl.request'])
 
 .factory('appRequest', function (nglRequest) {
   return nglRequest({
-    context: 'api',
+    context: '/api',
     endpoints: {
       items: '/item',
       item: '/item/:id'
@@ -48,7 +39,7 @@ angular.module('app.request', ['ngl.request'])
 });
 ```
 
-Use the exposed service where needed
+Then, use that service where needed
 
 ```js
 angular.module('app', ['app.request'])
@@ -61,38 +52,38 @@ angular.module('app', ['app.request'])
 });
 ```
 
-Design notes
-------------
+Install
+-------
 
-Keep It Simple
+    bower install --save ngl.request
 
-### Avoid optional parameters
+### Include the sources
 
-Do not handle url sections like `/:id?`
+```html
+<script src="bower_components/ngl.fp/dist/ngl.fp.min.js"></script>
+<script src="bower_components/ngl.url/dist/ngl.url.min.js"></script>
+<script src="bower_components/ngl.request/dist/ngl.request.min.js"></script>
+```
 
-### Query string parameters
+### Load the angular module
 
-  * Should be reserved for **search** filters
-  * Should be optional
+Add `ngl.request` to your app dependencies
 
-That simplifies the API:
+```js
+angular.module('app', [ 'ngl.request' ]);
+```
 
-  * Url parameters (`:id`) will be defined in the resource's single argument
-  
-    ```js
-    appRequest.item({ id: 123 })
-    ```
-  
-  * `.get()` single argument will be treated as query string object
-  * `.post()` or `.put()` single argument will be treated as data payload
+API
+---
 
-References
-----------
+### Supported HTTP methods
 
-*   https://github.com/flatiron/restful#core-http-rest-mappings
-*   http://expressjs.com/4x/api.html#app.use
-*   https://docs.angularjs.org/api/ngRoute/service/$route#example
-    (`script.js`)
-*   https://docs.angularjs.org/api/ngRoute/provider/$routeProvider
-*   https://github.com/tj/page.js#matching-paths
-*   https://github.com/pillarjs/path-to-regexp
+  * GET (`request.foo().get()`)
+  * POST (`request.foo().post()`)
+  * PUT (`request.foo().put()`)
+  * DELETE (`request.foo().delete()`)
+
+Additional documentation
+------------------------
+
+  * [Design notes](doc/design-notes.md)
