@@ -4,6 +4,6 @@
   "dependencies": {
     "angular": "1.*",
     "ngl.fp": "^0.6.0",
-    "ngl.url": "^0.1.5"
+    "ngl.url": "^0.1.6"
   }
 }
