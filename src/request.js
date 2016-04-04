@@ -11,7 +11,7 @@ angular.module('ngl.request', [
   };
 
   var get = function (path, qs) {
-    return $http.get(url(path, qs)));
+    return $http.get(url(path, qs));
   };
 
   var post = function (url, payload) {
